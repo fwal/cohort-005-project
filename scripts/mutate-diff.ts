@@ -92,8 +92,16 @@ function git(args: string[], { optional = false } = {}): string[] {
  * If not, it is the merge base with `origin/main`, then with `main`. A clone
  * with neither gets null. The script then examines only the uncommitted
  * changes, which is still a usable result.
+ *
+ * `MUTATION_BASE` overrides all of that: the base is its merge base with
+ * HEAD. CI sets it, because a branch checked out at the PR's head has a
+ * reflog that starts at that head, which would make the diff empty and the
+ * run a false pass. A ref that does not resolve stops the run.
  */
 function findDiffBase(): string | null {
+  const override = process.env.MUTATION_BASE;
+  if (override) return git(["merge-base", "HEAD", override])[0] ?? null;
+
   const branch = git(["symbolic-ref", "--quiet", "--short", "HEAD"], {
     optional: true,
   })[0];

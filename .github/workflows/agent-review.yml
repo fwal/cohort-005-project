@@ -160,7 +160,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install Claude Code
+      - name: Install Codex
         run: npm install -g @openai/codex
 
       - name: Migrate and seed the database
@@ -187,6 +187,10 @@ jobs:
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OUTPUT_DIR: ${{ runner.temp }}
+          # `git checkout -B` above starts the branch's reflog at the PR head,
+          # so without this `npm run test:mutation` diffs against the PR head
+          # and mutates nothing.
+          MUTATION_BASE: origin/${{ github.event.pull_request.base.ref }}
         run: npx tsx .sandcastle/agent-workflows/review/review.ts
 
       - name: Push the review's fixes
@@ -266,10 +270,7 @@ jobs:
           fi
           {
             echo ""
-            echo "---"
-            echo ""
-            echo "Reviewed by the review workflow — [logs](${RUN_URL}). This run"
-            echo "saw the diff, the standards and the ticket, and nothing else."
+            echo "<sub>[logs](${RUN_URL})</sub>"
           } >> /tmp/review-verdict.md
           # Uploads the agent's screenshots and swaps each /tmp/evidence path
           # in the body for its URL. nullglob: none means no --attach.
