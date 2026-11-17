@@ -148,6 +148,10 @@
     {
       "files": [
         "app/components/comment-thread.tsx",
+        "app/components/lesson-view.tsx",
+        "app/components/lesson-quiz.tsx",
+        "app/modules/lesson-view/index.server.ts",
+        "app/modules/lesson-view/lib/queries.server.ts",
         "app/components/dev-ui.tsx",
         "app/components/monaco-markdown-editor.tsx",
         "app/components/notification-feed.tsx",
@@ -234,6 +238,7 @@
     {
       "files": [
         "app/routes/courses.$slug.lessons.$lessonId.tsx",
+        "app/modules/lesson-view/index.server.ts",
         "request-logger/render.ts"
       ],
       "rules": {
