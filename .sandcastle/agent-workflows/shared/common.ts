@@ -21,16 +21,19 @@ export const writeJson = (filename: string, value: unknown): void => {
   );
 };
 
-// The one agent every factory workflow runs. It authenticates with a Claude
-// subscription. To bill the API instead, pass ANTHROPIC_API_KEY here and in
-// the workflow's env in place of OPENAI_API_KEY.
+// The one agent every factory workflow runs: Codex, billed to an OpenAI API
+// key. The workflows hold that key in the OPENAI_API_KEY secret.
+//
+// `codex exec` does not read OPENAI_API_KEY: started without a login it sends
+// no credentials at all, and fails with "failed to connect to Responses
+// WebSocket" (a 401 underneath). It reads CODEX_API_KEY, so the key is passed
+// on under that name.
 //
 // Sandcastle runs every agent with its permission checks skipped, so it can
-// use any tool. Claude Code also accepts `permissionMode: "auto"` here for
-// AI-mediated approvals instead (Claude only; other agents don't offer it).
+// use any tool.
 export const claudeAgent = () =>
   sandcastle.codex("gpt-6.1-sol", {
     env: {
-      OPENAI_API_KEY: required("OPENAI_API_KEY"),
+      CODEX_API_KEY: required("OPENAI_API_KEY"),
     },
   });
