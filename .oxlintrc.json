@@ -147,6 +147,10 @@
     },
     {
       "files": [
+        "app/components/lesson-viewer.tsx",
+        "app/components/lesson-curriculum.tsx",
+        "app/components/lesson-quiz.tsx",
+        "app/modules/lesson-viewer/queries.server.ts",
         "app/components/comment-thread.tsx",
         "app/components/dev-ui.tsx",
         "app/components/monaco-markdown-editor.tsx",
