@@ -14,19 +14,30 @@ pushes your commits. Leave `.github/` untouched.
 Every finding you leave unfixed becomes an inline comment on its file and
 line. You will be asked for them as structured output.
 
-Write your verdict on the branch, after your fixes, to /tmp/review-verdict.md:
+Write your verdict on the branch, after your fixes, to /tmp/review-verdict.md,
+as a **scorecard**: each section is its one sentence plus its bullets.
 
-    ## Standards: PASS | CHANGES REQUESTED
-    One line of reasoning, then the findings, worst first: each one fixed
-    (its commit) or left (its file and line), citing the rule by heading.
+    ## Standards: ✅ PASS | ❌ CHANGES REQUESTED
+    One sentence.
+    - 🔧 <finding> — <rule heading> (<commit>)
+    - 💬 <finding> — <rule heading> (`file:line`)
 
-    ## Spec: PASS | CHANGES REQUESTED
-    One line of reasoning, then the findings, fixed or left.
+    ## Spec: ✅ PASS | ❌ CHANGES REQUESTED | ⚪ NO SPEC
+    One sentence.
+    - 🔧 / 💬 findings, same shape, quoting the spec line
+
+    ## Checks
+    ✅ typecheck · ✅ lint:boundaries · ✅ test · ✅ test:mutation (<killed>/<total> killed)
 
     ## Rules this review wanted and could not find
-    Anything you wanted to fail the change for that no standard covers.
-    The retro reads this list.
+    - one bullet per rule: what you wanted to fail the change for that no
+      standard covers. The retro reads this list. "None." when empty.
+
+Findings go worst first: 🔧 for fixed, 💬 for left. A check that failed gets
+❌ and one clause on why.
 
 When the change shows in the UI, save screenshots as PNGs in /tmp/evidence/.
-Reference each in the verdict by its absolute path, e.g.
-`![after](/tmp/evidence/after.png)`. The workflow uploads them.
+Put them at the end of the Spec section, inside
+`<details><summary>Screenshots</summary>` … `</details>`, each referenced by
+its absolute path, e.g. `![after](/tmp/evidence/after.png)`. The workflow
+uploads them.

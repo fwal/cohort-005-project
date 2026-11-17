@@ -158,7 +158,7 @@ jobs:
         if: steps.batch.outputs.numbers != '[]'
         run: npm ci
 
-      - name: Install Claude Code
+      - name: Install Codex
         if: steps.batch.outputs.numbers != '[]'
         run: npm install -g @openai/codex
 
